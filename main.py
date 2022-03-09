@@ -1,5 +1,4 @@
-from user_cli import Cli
-
+from cli import Cli
 
 print('hello world')
 
