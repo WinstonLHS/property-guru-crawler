@@ -1,8 +1,7 @@
-from msilib.schema import Property
+import re
 from cloudscraper import create_scraper
 from django.core.validators import URLValidator
 from django.forms import ValidationError
-import re
 
 ADDRESS_REGEX = re.compile('<span itemprop="streetAddress">(.+)</.*span')
 
