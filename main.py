@@ -1,3 +1,7 @@
+from user_cli import Cli
+
+
 print('hello world')
 
-print('fetch link:')
+cli = Cli()
+cli.prompt_user()
