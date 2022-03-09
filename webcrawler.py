@@ -4,6 +4,7 @@ from django.core.validators import URLValidator
 from django.forms import ValidationError
 
 ADDRESS_REGEX = re.compile('<span itemprop="streetAddress">(.+)</.*span')
+TEMP_FILE = 'saved_pages/page.html'
 
 def prompt_for_url():
     link = input('please enter the property guru link:')
@@ -14,7 +15,7 @@ def extract_page(link: str):
         return
     html = fetch_html(link)
     save_to_file(html)
-    address = find()
+    address = find('address')
     property = Property()
     property.set('address', address)
 
@@ -37,14 +38,11 @@ def is_valid_url(url: str):
         print("Entered an invalid URL")
         return False
 
-def save_to_file(content: str, file_name = 'page.html'):
+def save_to_file(content: str, file_name = TEMP_FILE):
     with open(file_name, 'w') as file:
         file.write(content)
 
-def find(attribute_name: str, file_name = 'page.html'):
-    if True:
-        raise NotImplementedError
-
+def find(attribute_name: str, file_name = TEMP_FILE):
     with open(file_name, 'r') as file:
         for line in file:
             if (line.__contains__('<span itemprop="streetAddress">')):
