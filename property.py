@@ -1,24 +1,27 @@
-from typing import Any
+from datetime import date
+
 
 class Property:
-    __attributes = {}
+    address : str
+    sqft : int
+    years_Left : float
+    year_built : int
+    lease_length : int
 
-    def __init__(self) -> None:
-        self.include('address')
+    def set_lease_length(self, lease_length : int):
+        if lease_length < 1:
+            raise Exception('expected lease length to be positive.')
+        self.lease_length = lease_length
 
-    def include(self, attribute_name: str):
-        if attribute_name in self.__attributes:
-            print('attribute:', attribute_name, 'already included')
-        else:
-            self.__attributes[attribute_name] = None
-            print('attribute:', attribute_name, 'added')
+    def set_year_built(self, year : int):
+        self.year_built = year
+        if self.lease_length < 1:
+            raise Exception('expected lease length to be set.')
+        self.years_Left = self.lease_length - (self.year_built - date.today().year)
 
-    def items(self):
-        return self.__attributes.items()
+    def set_size(self, sqft : int):
+        self.sqft = sqft
 
-    def set(self, name: str, value: Any) -> None:
-        if name in self.__attributes:
-            self.__attributes[name] = value
-        else:
-            print('attribute', name, 'doesn\'t exist')
+    def set_address(self, address : str):
+        self.address = address
 
