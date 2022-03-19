@@ -3,7 +3,7 @@ from datetime import date
 
 class Property:
     address : str
-    sqft : int
+    sqft : float
     years_Left : float
     year_built : int
     lease_length : int
