@@ -1,9 +1,9 @@
+from common import TEMP_HTML
 from property import Property
 from bs4 import BeautifulSoup
 
 # from webcrawler import TEMP_FILE
 
-TEMP_FILE = 'saved_pages/page.html'
 HTML_PARSER = 'html.parser'
 
 def extract_property_from_text(text : str):
@@ -63,7 +63,9 @@ def find_sqft(doc : BeautifulSoup) -> float:
     else:
         return float(value_text)
 
-file = open(TEMP_FILE, 'r')
+
+
+file = open(TEMP_HTML, 'r')
 text = file.read()
 p = extract_property_from_text(text)
 print(p.sqft)

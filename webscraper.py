@@ -1,10 +1,9 @@
-import re
 from cloudscraper import create_scraper
 from django.core.validators import URLValidator
 from django.forms import ValidationError
+from common import TEMP_HTML
 
-from extractor import Property, extract_property, find_address
-TEMP_FILE = 'saved_pages/page.html'
+from extractor import Property, extract_property
 
 def prompt_for_url():
     link = input('please enter the property guru link:')
@@ -36,6 +35,6 @@ def is_valid_url(url: str):
         print("Entered an invalid URL")
         return False
 
-def save_to_file(content: str, file_name = TEMP_FILE):
+def save_to_file(content: str, file_name = TEMP_HTML):
     with open(file_name, 'w') as file:
         file.write(content)
