@@ -14,8 +14,12 @@ class Property:
         self.lease_length = lease_length
 
     def set_year_built(self, year : int):
+        if year < 1:
+            raise Exception('expected year to be > 1')
         self.year_built = year
-        if self.lease_length < 1:
+
+    def compute_years_left(self):
+        if self.lease_length is None or self.lease_length < 1:
             raise Exception('expected lease length to be set.')
         self.years_Left = self.lease_length - (self.year_built - date.today().year)
 
