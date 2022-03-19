@@ -2,8 +2,6 @@ from common import TEMP_PROPERTIES_CSV, TEMP_HTML
 from property import Property
 from bs4 import BeautifulSoup
 
-# from webcrawler import TEMP_FILE
-
 HTML_PARSER = 'html.parser'
 
 def extract_property_from_text(text : str):
@@ -15,6 +13,8 @@ def extract_property(doc : BeautifulSoup):
     p.set_address(find_address(doc))
     p.set_year_built(find_year_built(doc))
     p.set_size(find_sqft(doc))
+    p.set_lease_length(find_lease_length(doc))
+    p.compute_years_left()
     return p
 
 def find_address(doc : BeautifulSoup) -> str:
@@ -50,11 +50,11 @@ def find_sqft(doc : BeautifulSoup) -> float:
     column_tag_found = doc.find_all(name=COLUMN_TAG_NAME, attrs=COLUMN_TAG_ATTRS).pop()
     value_tag_found = column_tag_found.find_all(name=VALUE_TAG_NAME, attrs=VALUE_TAG_ATTRS).pop()
     value_text = value_tag_found.text
-    if value_text.endswith('sqft'):
+    if value_text.__contains__('sqft'):
         endIndex = value_text.index('sqft')
         value_text = value_text[:endIndex]
         return float(value_text)
-    elif value_text.endswith('sqm'):
+    elif value_text.__contains__('sqm'):
         endIndex = value_text.index('sqm')
         value_text = value_text[:endIndex]
         sqm = int(value_text)
@@ -63,11 +63,21 @@ def find_sqft(doc : BeautifulSoup) -> float:
     else:
         return float(value_text)
 
+def find_lease_length(doc : BeautifulSoup) -> int:
+    COLUMN_TAG_NAME = 'tr'
+    COLUMN_TAG_ATTRS = {'class':'property-attr'}
+    column_tags = doc.find_all(name=COLUMN_TAG_NAME, attrs=COLUMN_TAG_ATTRS)
+    if len(column_tags) < 1:
+        raise Exception('expected at least 1 match')
 
+    VALUE_TAG_ATTRS = {'class':'value-block', 'itemprop':'value'}
+    VALUE_TAG_NAME = 'td'
+    column_tag = column_tags[0]
+    tenure = column_tag.find_next(text='Tenure')
+    value_tag = tenure.find_next(name=VALUE_TAG_NAME, attrs=VALUE_TAG_ATTRS)
+    lease_text = value_tag.text
+    if not lease_text.__contains__('Leasehold'):
+        raise Exception('expected leasehold tenure')
 
-file = open(TEMP_HTML, 'r')
-text = file.read()
-p = extract_property_from_text(text)
-csv_file = open(TEMP_PROPERTIES_CSV, 'a')
-csv_file.writelines([p.__str__()])
-csv_file.close()
+    lease_years = lease_text[:lease_text.index('-year Leasehold')]
+    return int(lease_years)
