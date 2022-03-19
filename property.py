@@ -1,12 +1,20 @@
 from datetime import date
+from os import link
 
 
 class Property:
     address : str
+    link : str
     sqft : float
     years_Left : float
     year_built : int
     lease_length : int
+
+    def set_link(self, link : str):
+        self.link = link
+
+    def set_address(self, address : str):
+        self.address = address
 
     def set_lease_length(self, lease_length : int):
         if lease_length < 1:
@@ -26,15 +34,4 @@ class Property:
     def set_size(self, sqft : int):
         self.sqft = sqft
 
-    def set_address(self, address : str):
-        self.address = address
 
-    def __str__(self) -> str:
-        columns = [
-            str(self.address),
-            str(self.sqft),
-            str(self.years_Left),
-            str(self.year_built),
-            str(self.lease_length),
-        ]
-        return '|'.join(columns)
