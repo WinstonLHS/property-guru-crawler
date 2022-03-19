@@ -32,6 +32,6 @@ def write_csv(properties : list):
     for p in properties:
         line = property_to_str(p)
         csv_file.write(line)
-        csv_file.write(COLUMN_DELIMITER)
+        csv_file.write(LINE_DELIMITER)
         csv_file.flush()
     csv_file.close()

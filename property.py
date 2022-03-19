@@ -6,6 +6,7 @@ class Property:
     address : str
     link : str
     price : float
+    floor : str
     sqft : float
     years_Left : float
     year_built : int
@@ -20,6 +21,8 @@ class Property:
     def set_price(self, price : float):
         self.price = price
 
+    def set_floor(self, floor : str):
+        self.floor = floor
 
     def set_lease_length(self, lease_length : int):
         if lease_length < 1:
