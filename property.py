@@ -29,3 +29,12 @@ class Property:
     def set_address(self, address : str):
         self.address = address
 
+    def __str__(self) -> str:
+        columns = [
+            str(self.address),
+            str(self.sqft),
+            str(self.years_Left),
+            str(self.year_built),
+            str(self.lease_length),
+        ]
+        return '|'.join(columns)

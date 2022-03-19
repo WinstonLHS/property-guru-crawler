@@ -1,4 +1,4 @@
-from common import TEMP_HTML
+from common import TEMP_PROPERTIES_CSV, TEMP_HTML
 from property import Property
 from bs4 import BeautifulSoup
 
@@ -68,4 +68,6 @@ def find_sqft(doc : BeautifulSoup) -> float:
 file = open(TEMP_HTML, 'r')
 text = file.read()
 p = extract_property_from_text(text)
-print(p.sqft)
+csv_file = open(TEMP_PROPERTIES_CSV, 'a')
+csv_file.writelines([p.__str__()])
+csv_file.close()
