@@ -1,3 +1,4 @@
+import locale
 from attr import attrs
 from common import TEMP_PROPERTIES_CSV, TEMP_HTML
 from property import Property
@@ -13,6 +14,7 @@ def extract_property(doc : BeautifulSoup):
     p = Property()
     p.set_address(find_address(doc))
     p.set_link(find_link(doc))
+    p.set_price(find_price(doc))
     p.set_year_built(find_year_built(doc))
     p.set_size(find_sqft(doc))
     p.set_lease_length(find_lease_length(doc))
@@ -27,11 +29,19 @@ def find_address(doc : BeautifulSoup) -> str:
 def find_link(doc : BeautifulSoup) -> str:
     link_tags = doc.find_all(name='link', attrs={'rel':'canonical'})
     if len(link_tags) != 1:
-        raise Exception("expected 1 match of name='link', attrs={'rel':'canonical'")
-    link_tag = link_tags.pop()
+        raise Exception('expected 1 match of <link name="link" rel="canonical"...>')
+    link_tag = link_tags[0]
     link = link_tag.attrs['href']
     return link
 
+def find_price(doc : BeautifulSoup) -> float:
+    price_tags = doc.find_all(name='span', attrs={'class':'element-label price', 'itemprop':'price'})
+    if len(price_tags) != 1:
+        raise Exception('expected 1 match of <span class="element-label price" itemprop="price"...>')
+    price_tag = price_tags[0]
+    locale.setlocale(locale.LC_ALL, 'en_US.UTF-8')
+    price = locale.atof(price_tag.text)
+    return price
 def find_year_built(doc : BeautifulSoup) -> int:
     column_tag_attrs={
         "class":"property-attr completion-year"
