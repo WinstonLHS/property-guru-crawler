@@ -1,10 +1,10 @@
-from common import TEMP_HTML, TEMP_PROPERTIES_CSV
-from extractor import extract_property_from_text
-from property import Property
+from webscraper import extract_property_from_link
 from property_csv_writer import write_csv
 
-file = open(TEMP_HTML, 'r')
-text = file.read()
-p = extract_property_from_text(text)
-properties = [p, p]
+file = open('sample_links')
+properties = []
+for link in file:
+    property = extract_property_from_link(link.strip())
+    properties.append(property)
+
 write_csv(properties)

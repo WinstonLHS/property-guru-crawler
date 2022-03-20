@@ -9,9 +9,9 @@ def prompt_for_url():
     link = input('please enter the property guru link:')
     return link
 
-def extract_property(link: str) -> Property:
+def extract_property_from_link(link: str) -> Property:
     if not is_valid_url(link):
-        return
+        raise Exception(f'entered an invalid url: {link}')
     html = fetch_html(link)
     save_to_file(html) # snapshot
     return extract_property(html)
