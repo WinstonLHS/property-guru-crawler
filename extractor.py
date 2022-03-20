@@ -47,7 +47,9 @@ def find_price(doc : BeautifulSoup) -> float:
 
 def find_floor(doc : BeautifulSoup) -> str:
     column_tags = doc.find_all(name='tr', attrs={'class':'property-attr floor-level'})
-    column_tag = single(column_tags)
+    if len(column_tags) == 0:
+        return 'Unspecified'
+    column_tag = at_least_one(column_tags)
     value_tags = column_tag.find_all(name='td', attrs={'class':'value-block', 'itemprop':'value'})
     value_tag = single(value_tags)
     floor = value_tag.text.strip()
@@ -116,6 +118,17 @@ def find_lease_length(doc : BeautifulSoup) -> int:
 
 def single(results : bs4.ResultSet, html_tag : str = ''):
     if len(results) != 1:
+        error_msg : str
+        if html_tag > '':
+            error_msg = 'expected 1 match of ' + html_tag
+        else:
+            error_msg = 'expected 1 match'
+        raise Exception(error_msg)
+
+    return results[0]
+
+def at_least_one(results : bs4.ResultSet, html_tag : str = ''):
+    if len(results) < 1:
         error_msg : str
         if html_tag > '':
             error_msg = 'expected 1 match of ' + html_tag

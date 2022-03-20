@@ -29,12 +29,12 @@ def is_valid_url(url: str):
     validate = URLValidator()
     try:
         validate(url)
-        print("Entered a valid URL.")
+        print(f"Entered a valid URL: {url}")
         return True
     except ValidationError as e:
-        print("Entered an invalid URL")
+        print(f"Entered an invalid URL: {url}")
         return False
 
 def save_to_file(content: str, file_name = TEMP_HTML):
-    with open(file_name, 'w') as file:
+    with open(file_name, 'w', encoding='utf8') as file:
         file.write(content)
