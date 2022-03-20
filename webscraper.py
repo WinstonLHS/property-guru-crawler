@@ -3,7 +3,7 @@ from django.core.validators import URLValidator
 from django.forms import ValidationError
 from common import TEMP_HTML
 
-from extractor import Property, extract_property
+from extractor import Property, extract_property, extract_property_from_html
 
 def prompt_for_url():
     link = input('please enter the property guru link:')
@@ -14,7 +14,7 @@ def extract_property_from_link(link: str) -> Property:
         raise Exception(f'entered an invalid url: {link}')
     html = fetch_html(link)
     save_to_file(html) # snapshot
-    return extract_property(html)
+    return extract_property_from_html(html)
 
 def fetch_html(url: str):
     scraper = create_scraper(

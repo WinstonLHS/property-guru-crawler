@@ -7,8 +7,8 @@ from bs4 import BeautifulSoup
 
 HTML_PARSER = 'html.parser'
 
-def extract_property_from_text(text : str):
-    doc = BeautifulSoup(text, HTML_PARSER)
+def extract_property_from_html(html : str):
+    doc = BeautifulSoup(html, HTML_PARSER)
     return extract_property(doc)
 
 def extract_property(doc : BeautifulSoup):
