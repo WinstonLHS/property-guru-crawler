@@ -37,7 +37,7 @@ class Property:
     def compute_years_left(self):
         if self.lease_length is None or self.lease_length < 1:
             raise Exception('expected lease length to be set.')
-        self.years_Left = self.lease_length - (self.year_built - date.today().year)
+        self.years_Left = (self.year_built + self.lease_length - date.today().year)
 
     def set_size(self, sqft : int):
         self.sqft = sqft
