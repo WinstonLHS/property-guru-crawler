@@ -1,5 +1,4 @@
-from msilib.schema import Property
-
+from property import Property
 from common import TEMP_PROPERTIES_CSV
 
 LINE_DELIMITER = '\n'
