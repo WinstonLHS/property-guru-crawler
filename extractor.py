@@ -25,6 +25,8 @@ def extract_property(doc : BeautifulSoup):
 
 def find_address(doc : BeautifulSoup) -> str:
     matches = doc.find_all(attrs={"itemprop" : "streetAddress"})
+    if len(matches) == 0:
+        exit
     match = matches.pop()
     return match.text
 
