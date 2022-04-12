@@ -3,7 +3,7 @@ from django.core.validators import URLValidator
 from django.forms import ValidationError
 from common import TEMP_HTML
 
-from extractor import Property, extract_property, extract_property_from_html
+from extractor import Property, extract_property_from_html
 
 def prompt_for_url():
     link = input('please enter the property guru link:')

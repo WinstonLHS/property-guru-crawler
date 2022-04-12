@@ -1,7 +1,5 @@
 import locale
-from attr import attrs
 import bs4
-from common import TEMP_PROPERTIES_CSV, TEMP_HTML
 from property import Property
 from bs4 import BeautifulSoup
 

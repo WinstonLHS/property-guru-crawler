@@ -1,10 +1,9 @@
+from property import Property
 from webscraper import extract_property_from_link
-from property_csv_writer import write_csv
+from property_csv_writer import PropertiesCsvWriter
 
 file = open('sample_links')
-properties = []
+writer = PropertiesCsvWriter()
 for link in file:
-    property = extract_property_from_link(link.strip())
-    properties.append(property)
-
-write_csv(properties)
+    property: Property = extract_property_from_link(link.strip())
+    writer.write(property)

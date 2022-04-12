@@ -1,9 +1,11 @@
-from property import Property
+import csv
+from io import TextIOWrapper
 from common import TEMP_PROPERTIES_CSV
+from property import Property
 
 LINE_DELIMITER = '\n'
 COLUMN_DELIMITER = '|'
-HEADERS : list = COLUMN_DELIMITER.join([
+HEADERS: list = COLUMN_DELIMITER.join([
     'address',
     'link',
     'price',
@@ -12,25 +14,36 @@ HEADERS : list = COLUMN_DELIMITER.join([
     'sqft',
 ])
 
+class PropertiesCsvWriter:
+    file_path: str = TEMP_PROPERTIES_CSV
+    csv_file: TextIOWrapper
 
-def property_to_str(p : Property) -> str:
-    columns = [
-        str(p.address),
-        str(p.link),
-        str(p.price),
-        str(p.floor),
-        str(p.years_Left),
-        str(p.sqft),
-    ]
-    return COLUMN_DELIMITER.join(columns)
+    def __init__(self) -> None:
+        self.csv_file = open(self.file_path, 'w', newline=LINE_DELIMITER)
+        self.csv_file.close()
 
-def write_csv(properties : list):
-    csv_file = open(TEMP_PROPERTIES_CSV, 'w', newline=LINE_DELIMITER)
-    csv_file.write(HEADERS)
-    csv_file.write(LINE_DELIMITER)
-    for p in properties:
-        line = property_to_str(p)
-        csv_file.write(line)
-        csv_file.write(LINE_DELIMITER)
-        csv_file.flush()
-    csv_file.close()
+    def write(self, property: Property):
+        self.csv_file = open(self.file_path, 'a', newline=LINE_DELIMITER)
+        if self.csv_file.tell() == 0:
+            self.write_headers()
+        line = self.property_to_csv_row(property)
+        self.csv_file.write(line)
+        self.csv_file.write(LINE_DELIMITER)
+        self.csv_file.close()
+
+    def write_headers(self):
+        self.csv_file.write(HEADERS)
+        self.csv_file.write(LINE_DELIMITER)
+        self.csv_file.flush()
+
+    def property_to_csv_row(self, property: Property) -> str:
+        columns = [
+            str(property.address),
+            str(property.link),
+            str(property.price),
+            str(property.floor),
+            str(property.years_Left),
+            str(property.sqft),
+        ]
+        return COLUMN_DELIMITER.join(columns)
+
