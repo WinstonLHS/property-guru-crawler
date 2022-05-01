@@ -1,2 +1,2 @@
 cloudscraper==1.2.58
-Django==4.0.3
+Django==4.0.4
