@@ -14,6 +14,9 @@ def extract_property_from_link(link: str) -> Property:
         raise Exception(f'entered an invalid url: {link}')
     html = fetch_html(link)
     save_to_file(html) # snapshot
+
+    if listing_no_longer_exists(html):
+        raise Exception(f'listing no longer exists: {link}')
     return extract_property_from_html(html)
 
 def fetch_html(url: str):
@@ -38,3 +41,7 @@ def is_valid_url(url: str):
 def save_to_file(content: str, file_name = TEMP_HTML):
     with open(file_name, 'w', encoding='utf8') as file:
         file.write(content)
+
+def listing_no_longer_exists(html_content: str):
+    index = html_content.find('Sorry, the listing you are looking for is currently no longer available')
+    return index > -1
