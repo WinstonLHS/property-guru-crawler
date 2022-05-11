@@ -1,4 +1,3 @@
-import csv
 from io import TextIOWrapper
 from common import TEMP_PROPERTIES_CSV
 from property import Property
