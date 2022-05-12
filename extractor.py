@@ -1,9 +1,11 @@
 import locale
+import re
 import bs4
 from property import Property
 from bs4 import BeautifulSoup
 
 HTML_PARSER = 'html.parser'
+date_year_regex = re.compile(r'\d\d\d\d')
 
 def extract_property_from_html(html : str):
     doc = BeautifulSoup(html, HTML_PARSER)
@@ -73,8 +75,8 @@ def find_year_built(doc : BeautifulSoup) -> int:
     if len(value_matches) != 1:
         raise Exception('found no match')
     value_text = value_matches[0].text
-
-    return int(value_text)
+    year_text = date_year_regex.search(value_text).group()
+    return int(year_text)
 
 def find_sqft(doc : BeautifulSoup) -> float:
     COLUMN_TAG_NAME = 'tr'
