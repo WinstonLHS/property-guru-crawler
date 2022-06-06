@@ -6,3 +6,9 @@ __pycache__/
 
 # App
 workspace/
+
+# PyCharm
+.idea/
+
+# Virtual Environment
+venv/
