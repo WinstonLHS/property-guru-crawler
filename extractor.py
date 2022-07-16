@@ -55,7 +55,12 @@ def find_floor(doc : BeautifulSoup) -> str:
     value_tags = column_tag.find_all(name='td', attrs={'class':'value-block', 'itemprop':'value'})
     value_tag = single(value_tags)
     floor = value_tag.text.strip()
-    return floor
+    floorRemap = {
+        "High Floor": "High",
+        "Medium Floor": "Medium",
+        "Low Floor": "Low"
+    }
+    return floorRemap[floor]
 
 
 def find_year_built(doc : BeautifulSoup) -> int:
